@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Linq;
+using System.Reflection.Metadata;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -12,23 +14,19 @@ namespace VisibleTerraPretaParticles;
 
 public class Core : ModSystem
 {
-    public SettingsFile<ParticleSettings> ParticleSettings { get; set; } = new(Path.Combine(GamePaths.ModConfig, "VisibleTerraPretaParticlesConfig.json"));
-
-    public AdvancedParticleProperties[] Particles => ParticleSettings.Settings.Particles;
+    public static ConfigParticles ConfigParticles { get; set; }
 
     public override void AssetsFinalize(ICoreAPI api)
     {
-        base.AssetsFinalize(api);
+        ConfigParticles = ModConfig.ReadConfig<ConfigParticles>(api as ICoreClientAPI, Constants.ConfigName);
 
         foreach (Block block in api.World.Blocks)
         {
-            if (!block.WildCardMatch("soil-high-*"))
+            if (block.WildCardMatch(ConfigParticles.BlockCodes))
             {
-                continue;
+                block.ParticleProperties ??= Array.Empty<AdvancedParticleProperties>();
+                block.ParticleProperties = block.ParticleProperties.Append(ConfigParticles.Particles);
             }
-
-            block.ParticleProperties ??= Array.Empty<AdvancedParticleProperties>();
-            block.ParticleProperties = block.ParticleProperties.Append(Particles);
         }
 
         api.World.Logger.Event("started '{0}' mod", Mod.Info.Name);

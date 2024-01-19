@@ -3,10 +3,10 @@
     "side": "client",
     "modid": "vtpp",
     "name": "Visible Terra Preta Particles",
-    "description": "Adds noticeable particles above terra preta blocks. Doesn't affect farmlands.",
+    "description": "Adds noticeable particles above terra preta and high fertility blocks. Doesn't affect farmlands.",
     "authors": ["Craluminum2413"],
-    "version": "1.1.0",
+    "version": "1.1.1",
     "dependencies": {
-        "game": "1.18.8"
+        "game": "1.19.0"
     }
 }
