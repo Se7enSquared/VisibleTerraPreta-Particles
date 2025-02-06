@@ -7,6 +7,7 @@ namespace VisibleTerraPretaParticles;
 
 public class ConfigParticles : IModConfig
 {
+    public bool Enabled { get; set; } = true;
     public string[] BlockCodes { get; set; } = Array.Empty<string>();
     public AdvancedParticleProperties[] Particles { get; set; } = Array.Empty<AdvancedParticleProperties>();
 
